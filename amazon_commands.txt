@@ -1,0 +1,16 @@
+// importing the data in mongoDB database as amazon_db
+mongoimport --db amazon_db --collection Electronics --type json --file '/home/cloudera/Downloads/Electronics_5.json'
+
+//start mongoDB
+mongo
+
+//switch to this database
+use amazon_db
+
+// Showing only the summary and overall columns with overall rating 1,3, or 5.
+db.Electronics.find({ 'overall': { $in: [1,3,5] } }, {'summary':1, 'overall':1, '_id':0} ).pretty()
+
+// Showing only the reviewName and 'overall' columns with overall rating less than 3 (using $lt) and greater than 1 (using $gt) and sorting the result by the ascending alphabetic order of 'reviewerName'.
+db.Electronics.find( { $and:[ {'overall':{$lt:3} }, {'overall':{$gt:1} } ] }, {'reviewerName':1, 'overall':1, '_id':0} ).sort( {'reviewerName':1} )
+
+
